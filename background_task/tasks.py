@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 
 from datetime import datetime, timedelta
 from importlib import import_module
@@ -10,7 +9,6 @@ import sys
 
 from django.db.utils import OperationalError
 from django.utils import timezone
-from six import python_2_unicode_compatible
 
 from background_task.exceptions import BackgroundTaskError
 from background_task.models import Task
@@ -266,7 +264,6 @@ class DBTaskRunner(object):
             return False
 
 
-@python_2_unicode_compatible
 class TaskProxy(object):
     def __init__(self, name, task_function, schedule, queue, remove_existing_tasks, runner):
         self.name = name
@@ -275,7 +272,6 @@ class TaskProxy(object):
         self.schedule = TaskSchedule.create(schedule)
         self.queue = queue
         self.remove_existing_tasks = remove_existing_tasks
-
 
     def __call__(self, *args, **kwargs):
         schedule = kwargs.pop('schedule', None)
@@ -298,6 +294,7 @@ class TaskProxy(object):
     def __str__(self):
         return 'TaskProxy(%s)' % self.name
 
+
 tasks = Tasks()
 
 
@@ -305,17 +302,11 @@ def autodiscover():
     """
     Autodiscover tasks.py files in much the same way as admin app
     """
-    import imp
     from django.conf import settings
 
     for app in settings.INSTALLED_APPS:
         try:
-            app_path = import_module(app).__path__
-        except (AttributeError, ImportError):
-            continue
-        try:
-            imp.find_module('tasks', app_path)
+            import_module("tasks", app)
         except ImportError:
             continue
 
-        import_module("%s.tasks" % app)
