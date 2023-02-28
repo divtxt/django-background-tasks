@@ -1,4 +1,7 @@
+FORK OF https://github.com/arteria/django-background-tasks
+
 =======================
+
 Django Background Tasks
 =======================
 
@@ -43,3 +46,13 @@ Donations
 
 .. _Bitcoin: https://blockchain.info/payment_request?address=34vD9fADYX9QAcMfJUB4c2pYd19SG2toZ9
 .. _PayPal: https://www.paypal.me/arteriagmbh
+
+
+
+# TODO
+
+- [ ] Switch to pipenv and Pipfile
+- [ ] Update to Django 4 and Python 3.10+
+- [ ] Tests in Github Actions
+- [ ] Review & update models
+- [ ] Redo as separate repo and publish as public package
